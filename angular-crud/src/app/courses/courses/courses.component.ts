@@ -5,10 +5,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoursesService } from '../services/courses.service';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 
 
 
@@ -21,7 +23,8 @@ import { CommonModule } from '@angular/common';
     MatToolbarModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    CommonModule
+    CommonModule,
+    ErrorDialogComponent
   ],
   providers: [
     CoursesService
@@ -34,12 +37,28 @@ export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
   displayedColumns = ['name', 'category']
 
-  constructor(private coursesService: CoursesService) {
-    this.courses$ = this.coursesService.list();
+  constructor(
+    private coursesService: CoursesService,
+    public dialog: MatDialog
+    ) {
+    this.courses$ = this.coursesService.list().pipe(
+      catchError(error => {
+        this.onError('Erro ao carregar cursos.')
+        return of([])
+      })
+    );
   }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void { }
+
+
+  onError(errorMessage: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      //width: '250px',
+      data: errorMessage
+    });
   }
+
 
 }
+
