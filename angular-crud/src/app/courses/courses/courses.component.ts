@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Course } from '../model/course';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
+import { CoursesService } from '../services/courses.service';
+import { Observable } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -14,16 +18,28 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [
     MatTableModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    CommonModule
+  ],
+  providers: [
+    CoursesService
   ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
-})
-export class CoursesComponent {
+}) 
+export class CoursesComponent implements OnInit {
 
-  courses: Course[] = [
-    {_id: '1', name: 'Angular', category: 'front-end'}
-  ];
+  courses$: Observable<Course[]>;
   displayedColumns = ['name', 'category']
+
+  constructor(private coursesService: CoursesService) {
+    this.courses$ = this.coursesService.list();
+  }
+
+  ngOnInit(): void {
+    
+  }
 
 }
