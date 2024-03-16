@@ -21,7 +21,7 @@ export class CoursesService {
     .pipe(
       //take(1), operadores do módulo rxjs
       first(),
-      delay(15000),
+      delay(3000),
       tap(courses => console.log(courses))
     );
   }
