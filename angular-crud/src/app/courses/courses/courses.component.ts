@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, catchError, of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Course } from '../model/course';
 import { CoursesService } from '../services/courses.service';
@@ -32,10 +33,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     ErrorDialogComponent,
     MatIconModule,
     CategoryPipe, 
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [
-    CoursesService, 
+    CoursesService,
+    Router 
   ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
@@ -47,7 +49,9 @@ export class CoursesComponent implements OnInit {
 
   constructor(
     private coursesService: CoursesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
     ) {
     this.courses$ = this.coursesService.list().pipe(
       catchError(error => {
@@ -65,6 +69,12 @@ export class CoursesComponent implements OnInit {
       //width: '250px',
       data: errorMessage
     });
+  }
+
+  onAdd(){
+    console.log("Cheguei aqui")
+    this.router.navigate(['new'], {relativeTo: this.route})
+    
   }
 
 
