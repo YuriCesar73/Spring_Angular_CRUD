@@ -25,4 +25,10 @@ export class CoursesService {
       tap(courses => console.log(courses))
     );
   }
+
+
+  save(record: Course){
+    console.log("Cheguei no service com o valor: " + record)
+    return this.httpClient.post<Course>(this.API, record).pipe(first());
+  }
 }
