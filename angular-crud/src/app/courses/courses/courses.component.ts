@@ -13,10 +13,12 @@ import { CategoryPipe } from '../../shared/pipes/category.pipe';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+// import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CoursesListComponent } from '../courses-list/courses-list.component';
+
 
 
 
@@ -24,28 +26,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   selector: 'app-courses',
   standalone: true,
   imports: [
-    MatTableModule,
+    // MatTableModule,
     MatCardModule,
     MatToolbarModule,
     HttpClientModule,
     MatProgressSpinnerModule,
     CommonModule,
     ErrorDialogComponent,
-    MatIconModule,
-    CategoryPipe, 
-    MatButtonModule,
+    // MatIconModule,
+    // CategoryPipe, 
+    // MatButtonModule,
+    CoursesListComponent
   ],
-  providers: [
-    CoursesService,
-    Router 
-  ],
+  // providers: [
+  //   CoursesService,
+  //   Router 
+  // ], NÃO PRECISA UTILIZAR
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.scss'
 }) 
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
-  displayedColumns = ['name', 'category', 'actions']
+  
 
   constructor(
     private coursesService: CoursesService,
@@ -72,7 +75,6 @@ export class CoursesComponent implements OnInit {
   }
 
   onAdd(){
-    console.log("Cheguei aqui")
     this.router.navigate(['new'], {relativeTo: this.route})
     
   }

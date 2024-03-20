@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CoursesService } from '../services/courses.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { error } from 'console';
+import { Location } from '@angular/common';
 
 
 
@@ -27,8 +27,9 @@ import { error } from 'console';
     MatToolbarModule,
     MatButtonModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
+  providers: [],
   templateUrl: './course-form.component.html',
   styleUrl: './course-form.component.scss'
 })
@@ -36,10 +37,14 @@ export class CourseFormComponent implements OnInit{
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private service: CoursesService, private snackbar: MatSnackBar){
+  constructor(
+    private formBuilder: FormBuilder, 
+    private service: CoursesService, 
+    private snackbar: MatSnackBar,
+    private location: Location){
     this.form = this.formBuilder.group({
-      name: [null],
-      category: [null]
+      name: new FormControl<string | null>('', Validators.required,),
+      category: new FormControl<string | null>('', {nonNullable: true})
     });
   }
 
@@ -48,15 +53,20 @@ export class CourseFormComponent implements OnInit{
   }
 
   onSubmit(){
-    console.log(this.form.value)
     this.service.save(this.form.value).subscribe(
-      result => this.service.save(result), 
+      result => this.onSuccess(), 
       error => this.onError());
 
   }
 
   onCancel(){
+    this.location.back();
     
+  }
+
+  private onSuccess(){
+    this.snackbar.open('Curso salvo.', '', {duration: 5000})
+    this.onCancel();
   }
 
   private onError(){

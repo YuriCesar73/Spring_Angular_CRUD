@@ -1,0 +1,13 @@
+mat-table {
+    overflow: auto; //Caso tenha muitos cursos, ajuda a ter um scroolbar
+    max-height: 600px;
+
+}
+
+.action-column {
+    flex: 0 0 120px; //joga os botões de ação para a direita
+}
+
+.action-column-header {
+    flex: 0 0 100px;
+}
