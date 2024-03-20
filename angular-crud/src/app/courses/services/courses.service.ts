@@ -29,10 +29,7 @@ export class CoursesService {
 
 
   save(record: Partial<Course>){
-    console.log("Valor do record: " + record);
-    console.log(record._id, record.category, record.name);
     if(record._id){
-      console.log("Chegue no if do save");
       return this.update(record);  
     }
     return this.create(record);  
@@ -52,6 +49,13 @@ export class CoursesService {
     let endpoint = this.API + "/" + id;
     return this.httpClient.get<Course>(endpoint).pipe(first());
   } 
+
+  remove(id: string){
+    let endpoint = this.API + "/" + id;
+    console.log("Valor do id: " + id)
+    console.log(endpoint);
+    this.httpClient.delete<Course>(endpoint).pipe(first(), tap(response => console.log(response)));
+  }
 
 
 }

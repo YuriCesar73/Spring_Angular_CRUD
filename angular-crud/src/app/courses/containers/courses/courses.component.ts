@@ -82,6 +82,11 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['edit/', course._id], {relativeTo: this.route})
   }
 
+  onDelete(id: string){
+    console.log('cheguei aqui no onDelete');
+    this.coursesService.remove(id);
+  }
+
 
 }
 

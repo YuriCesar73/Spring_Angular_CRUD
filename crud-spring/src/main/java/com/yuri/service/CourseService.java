@@ -43,6 +43,13 @@ public class CourseService {
 		
 		return courseUpdate;
 	}
+
+	public void delete(@Valid Long id) {
+		Course course = this.repository.findById(id).orElseThrow();
+		this.repository.delete(course);
+		
+	}
+	
 	
 	
 
