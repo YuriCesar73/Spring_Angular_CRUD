@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -48,6 +49,12 @@ public class CourseController {
 	public ResponseEntity<CourseDTO> create(@Valid @RequestBody CourseDTO course) {
 		this.service.create(course);
 		return ResponseEntity.status(HttpStatus.CREATED).body(course);
+	}
+	
+	@PutMapping
+	public ResponseEntity<CourseDTO> update(@Valid @RequestBody CourseDTO course){
+		CourseDTO courseUpdated = this.service.update(course);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(courseUpdated);
 		
 	}
 

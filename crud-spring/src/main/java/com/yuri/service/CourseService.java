@@ -32,6 +32,16 @@ public class CourseService {
 		CourseDTO courseFound = new CourseDTO(course);
 		return courseFound;
 	}
+
+	public CourseDTO update(@Valid CourseDTO course) {
+		Course courseFound = this.repository.findById(course.id()).orElseThrow();
+		courseFound.setCategory(course.category() == null ? courseFound.getCategory() : course.category());
+		courseFound.setName(course.name() == null ? courseFound.getName() : course.name());
+		
+		CourseDTO courseUpdate = new CourseDTO(courseFound);
+		
+		return courseUpdate;
+	}
 	
 	
 
