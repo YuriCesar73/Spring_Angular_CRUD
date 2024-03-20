@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yuri.dto.CourseDTO;
-import com.yuri.model.Course;
 import com.yuri.service.CourseService;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/courses")
-@CrossOrigin()
+@CrossOrigin("*")
 public class CourseController {
 	
 	@Autowired
@@ -51,11 +50,11 @@ public class CourseController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(course);
 	}
 	
-	@PutMapping
+	@PutMapping("/{id}")
 	public ResponseEntity<CourseDTO> update(@Valid @RequestBody CourseDTO course){
 		CourseDTO courseUpdated = this.service.update(course);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(courseUpdated);
 		
 	}
-
+ 
 }

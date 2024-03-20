@@ -37,6 +37,7 @@ public class CourseService {
 		Course courseFound = this.repository.findById(course.id()).orElseThrow();
 		courseFound.setCategory(course.category() == null ? courseFound.getCategory() : course.category());
 		courseFound.setName(course.name() == null ? courseFound.getName() : course.name());
+		this.repository.save(courseFound);
 		
 		CourseDTO courseUpdate = new CourseDTO(courseFound);
 		
