@@ -22,10 +22,11 @@
         </mat-header-cell> 
 
         <mat-cell *matCellDef="let course" class="action-column">
-            <button
+            <button 
                 mat-icon-button
                 color="primary"
                 aria-label="Editar Curso"
+                (click)="onEdit(course)"
             >
             <mat-icon>edit</mat-icon>
             </button>

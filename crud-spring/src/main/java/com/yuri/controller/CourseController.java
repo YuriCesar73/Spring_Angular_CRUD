@@ -41,7 +41,6 @@ public class CourseController {
 	public ResponseEntity<Course> findById(@PathVariable("id") Long id){
 		Course course = this.service.findById(id);
 		return ResponseEntity.status(HttpStatus.FOUND).body(course);
-	
 	}
 	
 	

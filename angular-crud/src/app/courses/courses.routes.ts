@@ -8,4 +8,5 @@ import { CourseFormComponent } from './containers/course-form/course-form.compon
 export const COURSES_ROUTES: Routes = [
     { path: '', component: CoursesComponent },
     { path: 'new', component: CourseFormComponent },
+    { path: 'edit/:id', component: CourseFormComponent }
 ];
