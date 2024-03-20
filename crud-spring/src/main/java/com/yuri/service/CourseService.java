@@ -27,9 +27,10 @@ public class CourseService {
 		this.repository.save(course);
 	}
 
-	public Course findById(Long id) {
+	public CourseDTO findById(Long id) {
 		Course course = this.repository.findById(id).orElse(null);
-		return course;
+		CourseDTO courseFound = new CourseDTO(course);
+		return courseFound;
 	}
 	
 	

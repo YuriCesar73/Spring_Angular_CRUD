@@ -11,10 +11,8 @@ export const courseResolver: ResolveFn<Observable<Course>> = (route, state) => {
 
 
   if(route.params && route.params['id']){
-    console.log("Cheguei no if")
     return service.findById(route.params['id']);
   }
-  console.log("Cheguei fora do if")
   return of({ _id: '', name: '', category: ''});
  
 };

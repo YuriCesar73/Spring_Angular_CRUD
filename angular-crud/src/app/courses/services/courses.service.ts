@@ -33,9 +33,8 @@ export class CoursesService {
   }
 
   findById(id: string){
-    console.log('cheguei aqui')
     let rota = this.API + "/" + id;
-    console.log(rota)
     return this.httpClient.get<Course>(rota).pipe(first());
-  }
+  } 
 }
+ 

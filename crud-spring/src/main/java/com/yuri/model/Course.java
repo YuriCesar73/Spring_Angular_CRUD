@@ -29,7 +29,7 @@ public class Course {
 	
 	public Course() {
 		
-	}
+	} 
 	
 	public Course(Long id, String name, String category) {
 		this.id = id;

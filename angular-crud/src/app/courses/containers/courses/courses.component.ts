@@ -79,8 +79,6 @@ export class CoursesComponent implements OnInit {
   }
 
   onEdit(course: Course){
-    console.log("Valor do id: " + course._id);
-    console.log("Valor do course: " + course.category)
     this.router.navigate(['edit/', course._id], {relativeTo: this.route})
   }
 

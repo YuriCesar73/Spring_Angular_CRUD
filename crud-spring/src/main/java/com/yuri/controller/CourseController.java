@@ -38,8 +38,8 @@ public class CourseController {
 	
 	@GetMapping("/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<Course> findById(@PathVariable("id") Long id){
-		Course course = this.service.findById(id);
+	public ResponseEntity<CourseDTO> findById(@PathVariable("id") Long id){
+		CourseDTO course = this.service.findById(id);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(course);
 	}
 	

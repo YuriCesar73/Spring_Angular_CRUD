@@ -11,6 +11,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { CoursesService } from '../../services/courses.service';
+import { ActivatedRoute } from '@angular/router';
+import { Course } from '../../model/course';
+import { Observable } from 'rxjs';
 
 
 
@@ -42,15 +45,22 @@ export class CourseFormComponent implements OnInit{
     private formBuilder: FormBuilder, 
     private service: CoursesService, 
     private snackbar: MatSnackBar,
-    private location: Location){
+    private location: Location,
+    private route: ActivatedRoute){
     this.form = this.formBuilder.group({
+      _id: new FormControl<string | null>(''),
       name: new FormControl<string | null>('', Validators.required,),
       category: new FormControl<string | null>('', {nonNullable: true})
     });
   }
 
   ngOnInit(): void {
-    
+    const course: Course = this.route.snapshot.data['course'] 
+    this.form.setValue({
+      name: course.name,
+      category: course.category,
+      _id: course._id,
+    })
   }
 
   onSubmit(){
@@ -58,7 +68,7 @@ export class CourseFormComponent implements OnInit{
       result => this.onSuccess(), 
       error => this.onError());
 
-  }
+  } 
 
   onCancel(){
     this.location.back();
@@ -73,5 +83,5 @@ export class CourseFormComponent implements OnInit{
   private onError(){
     this.snackbar.open("Erro ao salvar curso", '', {duration: 5000})
   }
-
+ 
 }
