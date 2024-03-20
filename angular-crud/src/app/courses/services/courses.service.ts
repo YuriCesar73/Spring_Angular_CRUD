@@ -29,12 +29,30 @@ export class CoursesService {
 
 
   save(record: Partial<Course>){
+    console.log("Valor do record: " + record);
+    console.log(record._id, record.category, record.name);
+    if(record._id){
+      console.log("Chegue no if do save");
+      return this.update(record);  
+    }
+    return this.create(record);  
+  }
+
+  private create(record: Partial<Course>){
     return this.httpClient.post<Course>(this.API, record).pipe(first());
   }
 
+  private update(record: Partial<Course>){
+    let endpoint = this.API + "/" + record._id;
+    return this.httpClient.put<Course>(endpoint, record).pipe(first());
+
+  }
+
   findById(id: string){
-    let rota = this.API + "/" + id;
-    return this.httpClient.get<Course>(rota).pipe(first());
+    let endpoint = this.API + "/" + id;
+    return this.httpClient.get<Course>(endpoint).pipe(first());
   } 
+
+
 }
  
