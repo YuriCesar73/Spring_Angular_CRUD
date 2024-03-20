@@ -31,8 +31,8 @@ public class CourseController {
 	
 	@GetMapping
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<Course> list(){
-		List<Course> courses =  this.service.listAll();
+	public List<CourseDTO> list(){
+		List<CourseDTO> courses =  this.service.listAll();
 		return courses;
 	}
 	
@@ -40,7 +40,7 @@ public class CourseController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<Course> findById(@PathVariable("id") Long id){
 		Course course = this.service.findById(id);
-		return ResponseEntity.status(HttpStatus.FOUND).body(course);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(course);
 	}
 	
 	

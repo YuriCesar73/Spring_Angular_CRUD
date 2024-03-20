@@ -17,9 +17,9 @@ public class CourseService {
 	@Autowired
 	private CourseRepository repository;
 
-	public List<Course> listAll() {
+	public List<CourseDTO> listAll() {
 
-		return this.repository.findAll();
+		return CourseDTO.converter(this.repository.findAll());
 	}
 
 	public void create(@Valid CourseDTO courseData) {

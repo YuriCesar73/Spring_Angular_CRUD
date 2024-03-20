@@ -10,8 +10,8 @@ import { Observable, delay, first, take, tap } from 'rxjs';
 export class CoursesService {
 
 
-  // private readonly API = 'http://localhost:8080/api/courses'
-  private readonly API = "/assets/courses.json"
+  private readonly API = 'http://localhost:8080/api/courses'
+  // private readonly API = "/assets/courses.json"
 
   constructor(private httpClient: HttpClient) { 
 
@@ -29,7 +29,13 @@ export class CoursesService {
 
 
   save(record: Partial<Course>){
-    console.log("Cheguei no service com o valor: " + record)
     return this.httpClient.post<Course>(this.API, record).pipe(first());
+  }
+
+  findById(id: string){
+    console.log('cheguei aqui')
+    let rota = this.API + "/" + id;
+    console.log(rota)
+    return this.httpClient.get<Course>(rota).pipe(first());
   }
 }
