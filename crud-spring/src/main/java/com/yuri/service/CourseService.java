@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yuri.dto.CourseDTO;
+import com.yuri.exception.CourseNotFound;
 import com.yuri.model.Course;
 import com.yuri.repository.CourseRepository;
 
@@ -28,7 +29,7 @@ public class CourseService {
 	}
 
 	public CourseDTO findById(Long id) {
-		Course course = this.repository.findById(id).orElse(null);
+		Course course = this.repository.findById(id).orElseThrow(() -> new CourseNotFound());
 		CourseDTO courseFound = new CourseDTO(course);
 		return courseFound;
 	}
