@@ -59,7 +59,6 @@ public class CourseController {
 	
 	@DeleteMapping("/{id}")
 	public HttpStatus delete(@Valid @PathVariable("id") Long id) {
-		System.out.println("Cheguei no delete" + ". Valor do id: " + id);
 		this.service.delete(id);
 		return HttpStatus.ACCEPTED;
 	}

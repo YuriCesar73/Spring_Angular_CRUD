@@ -18,6 +18,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoursesListComponent } from '../../components/courses-list/courses-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { error } from 'console';
+
+
+
 
 
 
@@ -36,7 +42,8 @@ import { CoursesListComponent } from '../../components/courses-list/courses-list
     // MatIconModule,
     // CategoryPipe, 
     // MatButtonModule,
-    CoursesListComponent
+    CoursesListComponent,
+    MatDialogModule
   ],
   // providers: [
   //   CoursesService,
@@ -47,21 +54,17 @@ import { CoursesListComponent } from '../../components/courses-list/courses-list
 }) 
 export class CoursesComponent implements OnInit {
 
-  courses$: Observable<Course[]>;
+  courses$!: Observable<Course[]>;
   
 
   constructor(
     private coursesService: CoursesService,
     public dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
     ) {
-    this.courses$ = this.coursesService.list().pipe(
-      catchError(error => {
-        this.onError('Erro ao carregar cursos.')
-        return of([])
-      })
-    );
+      this.refres();
   }
 
   ngOnInit(): void { }
@@ -82,9 +85,35 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['edit/', course._id], {relativeTo: this.route})
   }
 
-  onDelete(id: string){
-    console.log('cheguei aqui no onDelete');
-    this.coursesService.remove(id);
+  onRemove(course: Course){
+    //const dialogRef = this.dialog.open(ConfirmDialog)
+    console.log(course._id)
+    this.coursesService.remove(course._id).subscribe(() => {
+      this.refres();
+      this.snackBar.open('Curso removido com sucesso!', 'X', {
+        duration: 4000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      })
+    },
+      () => this.onError('Erro ao tentar remover curso')
+    );
+  }
+
+
+  openDialog(message: string){
+    this.dialog.open(ErrorDialogComponent, {
+      data: message
+    })
+  }
+
+  refres(){
+    this.courses$ = this.coursesService.list().pipe(
+      catchError((error) => {
+        this.onError(error.message);
+        return of([])
+      })
+    )
   }
 
 

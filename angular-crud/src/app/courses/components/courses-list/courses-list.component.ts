@@ -46,7 +46,7 @@ export class CoursesListComponent {
   }
 
 
-  onDelete(id: string) {
-    this.remove.emit(id);
+  onDelete(course: Course) {
+    this.remove.emit(course);
   }
 }

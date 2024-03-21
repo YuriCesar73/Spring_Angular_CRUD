@@ -22,7 +22,7 @@ export class CoursesService {
     .pipe(
       //take(1), operadores do módulo rxjs
       first(),
-      delay(3000),
+      //delay(3000),
       tap(courses => console.log(courses))
     );
   }
@@ -54,7 +54,7 @@ export class CoursesService {
     let endpoint = this.API + "/" + id;
     console.log("Valor do id: " + id)
     console.log(endpoint);
-    this.httpClient.delete<Course>(endpoint).pipe(first(), tap(response => console.log(response)));
+    return this.httpClient.delete<Course>(endpoint);
   }
 
 
