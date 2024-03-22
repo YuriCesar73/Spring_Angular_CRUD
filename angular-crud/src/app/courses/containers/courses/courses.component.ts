@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoursesListComponent } from '../../components/courses-list/courses-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-courses',
@@ -44,7 +45,7 @@ export class CoursesComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
     ) {
-      this.refres();
+      this.refresh();
   }
 
   ngOnInit(): void { }
@@ -65,21 +66,27 @@ export class CoursesComponent implements OnInit {
   }
 
   onRemove(course: Course){
-    console.log(course._id)
-    this.coursesService.remove(course._id).subscribe(() => {
-      () => {this.refres();
-      this.snackBar.open('Curso removido com sucesso!', 'X', {
-        duration: 4000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center'
-      })
-    }
-  },
-    () => this.onError('Erro ao tentar remover curso')
-  );
-    
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Tem certeza que deseja remover esse curso?',
+    });
 
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.coursesService.remove(course._id).subscribe(
+          () => {
+            this.refresh();
+            this.snackBar.open('Curso removido com sucesso!', 'X', {
+              duration: 5000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
+          },
+          () => this.onError('Erro ao tentar remover curso.')
+        );
+      }
+    });
+  }
+  
 
   openDialog(message: string){
     this.dialog.open(ErrorDialogComponent, {
@@ -87,7 +94,7 @@ export class CoursesComponent implements OnInit {
     })
   }
 
-  refres(){
+  refresh(){
     this.courses$ = this.coursesService.list().pipe(
       catchError((error) => {
         this.onError(error.message);
